@@ -7,14 +7,26 @@
 
 using namespace std;
 
-void environment::set_argc_positions(int argc) {
-    if (argc == 4) {
+Environment::Environment(int t_argc, char *t_argv[]) {
+    INPUT_INDEX = OUTPUT_INDEX = 0;
+    m_argc = t_argc;
+    m_argv = t_argv;
+    set();
+}
+
+void Environment::set() {
+    if (m_argc == 4) {
         INPUT_INDEX = 2;
         OUTPUT_INDEX = 3;
-    } else if (argc == 5) {
+    } else if (m_argc == 5) {
         INPUT_INDEX = 3;
-        OUTPUT_INDEX = 2;
+        OUTPUT_INDEX = 4;
+        m_isVerbose = strcmp(m_argv[2], "--v") == 0;
     }
+}
+
+bool Environment::isVerbose() {
+    return m_isVerbose;
 }
 
 void print_help() {

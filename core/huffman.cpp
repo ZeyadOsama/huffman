@@ -10,6 +10,7 @@
 using namespace std;
 
 void Huffman::printCodes() {
+    cout << "Codes:" << endl;
     printCodes(m_minHeap.top(), "");
 }
 
@@ -17,7 +18,7 @@ void Huffman::printCodes(struct MinHeapNode *root, const string &str) {
     if (!root)
         return;
     if (root->data != '$')
-        cout << root->data << ": " << str << "\n";
+        cout << "\t" << root->data << ": " << str << endl;
     printCodes(root->left, str + '0');
     printCodes(root->right, str + '1');
 }

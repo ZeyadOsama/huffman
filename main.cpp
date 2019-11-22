@@ -19,16 +19,26 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    map<char, int> m = getFrequencies("/Users/zeyadosama/CLionProjects/Huffman/cmake-build-debug/a.txt");
-
-    for (auto const &p : m) {
-        std::cout << p.first << ' ' << p.second << '\n';
+    if (argc < 4) {
+        print_help();
+        exit(-1);
     }
+    Environment e(argc, argv);
 
-    cout << endl;
+    if (strcmp(argv[1], COMPRESS) == 0) {
+        map<char, int> m = getFrequencies(argv[e.INPUT_INDEX]);
+        if (e.isVerbose()) {
+            cout << "Frequencies:" << endl;
+            for (auto const &p : m)
+                std::cout << "\t" << p.first << ": " << p.second << '\n';
+            cout << endl;
+        }
+        Huffman h(m);
+        h.build();
+        if (e.isVerbose())
+            h.printCodes();
+    } else if (strcmp(argv[1], DECOMPRESS) == 0) {
 
-    Huffman h(m);
-    h.build();
-    h.printCodes();
+    }
     return 0;
 }

@@ -10,12 +10,21 @@
 
 #include <string>
 
-class environment {
+class Environment {
+private:
+    char **m_argv;
+    int m_argc;
+    bool m_isVerbose;
+
+    void set();
+
 public:
     int INPUT_INDEX;
     int OUTPUT_INDEX;
 
-    void set_argc_positions(int argc);
+    Environment(int t_argc, char *t_argv[]);
+
+    bool isVerbose();
 };
 
 void print_help();
