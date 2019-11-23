@@ -8,12 +8,9 @@
 ///
 
 #include <iostream>
-#include <string>
 #include <map>
-#include <fstream>
 #include "utils/help.h"
 #include "core/huffman.h"
-
 #include "core/io.h"
 
 using namespace std;
@@ -30,13 +27,14 @@ int main(int argc, char *argv[]) {
         if (e.isVerbose()) {
             cout << "Frequencies:" << endl;
             for (auto const &p : m)
-                std::cout << "\t" << p.first << ": " << p.second << '\n';
+                std::cout << "\t" << p.first << ":\t" << p.second << '\n';
             cout << endl;
         }
         Huffman h(m);
         h.build();
         if (e.isVerbose())
             h.printCodes();
+        writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap());
     } else if (strcmp(argv[1], DECOMPRESS) == 0) {
 
     }

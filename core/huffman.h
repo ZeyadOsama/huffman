@@ -37,10 +37,12 @@ private:
     };
 
     std::map<char, int> m_map;
+    std::map<char, std::string> m_codesMap;
+
     std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare>
             m_minHeap;
 
-    void printCodes(struct MinHeapNode *root, const std::string &str);
+    void buildCodeMap(struct MinHeapNode *node, const std::string &str);
 
 public:
     explicit Huffman(std::map<char, int> t_map) {
@@ -56,6 +58,8 @@ public:
  * @brief prints huffman codes from  the root of Huffman Tree.
  */
     void printCodes();
+
+    std::map<char, std::string> getCodesMap();
 };
 
 #endif

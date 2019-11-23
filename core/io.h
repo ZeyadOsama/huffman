@@ -7,4 +7,7 @@
 
 std::map<char, int> getFrequencies(const std::string &path);
 
+int writeCompression(char *inPath, char *outPath, std::map<char, std::string> codeMap);
+
+
 #endif //HUFFMAN_IO_H

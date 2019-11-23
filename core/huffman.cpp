@@ -11,16 +11,17 @@ using namespace std;
 
 void Huffman::printCodes() {
     cout << "Codes:" << endl;
-    printCodes(m_minHeap.top(), "");
+    for (auto const &p : m_codesMap)
+        cout << "\t" << p.first << ":\t" << p.second << endl;
 }
 
-void Huffman::printCodes(struct MinHeapNode *root, const string &str) {
-    if (!root)
+void Huffman::buildCodeMap(struct MinHeapNode *node, const string &str) {
+    if (!node)
         return;
-    if (root->data != '$')
-        cout << "\t" << root->data << ": " << str << endl;
-    printCodes(root->left, str + '0');
-    printCodes(root->right, str + '1');
+    if (node->data != '$')
+        m_codesMap[node->data] = str;
+    buildCodeMap(node->left, str + '0');
+    buildCodeMap(node->right, str + '1');
 }
 
 void Huffman::build() {
@@ -54,5 +55,11 @@ void Huffman::build() {
         top->right = right;
 
         m_minHeap.push(top);
+
+        buildCodeMap(m_minHeap.top(), "");
     }
+}
+
+map<char, string> Huffman::getCodesMap() {
+    return m_codesMap;
 }
