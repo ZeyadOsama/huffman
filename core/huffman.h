@@ -26,7 +26,7 @@ struct MinHeapNode {
  * @brief Huffman class.
  */
 class Huffman {
-private:
+public:
     /**
      * @brief comparison of two heap nodes.
      */
@@ -38,9 +38,7 @@ private:
 
     std::map<char, int> m_map;
     std::map<char, std::string> m_codesMap;
-
-    std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare>
-            m_minHeap;
+    std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare> m_minHeap;
 
     void buildCodeMap(struct MinHeapNode *node, const std::string &str);
 
