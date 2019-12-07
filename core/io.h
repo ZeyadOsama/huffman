@@ -11,6 +11,4 @@ int writeCompression(char *inPath, char *outPath, std::map<char, std::string> co
 
 char *readFile(char *path);
 
-std::string decode_file(struct MinHeapNode *root, std::string s);
-
 #endif //HUFFMAN_IO_H

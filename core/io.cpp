@@ -69,26 +69,6 @@ map<char, int> getFrequencies(const string &path) {
     return map;
 }
 
-
-string decode_file(struct MinHeapNode *root, string s) {
-    string ans = "";
-    struct MinHeapNode *curr = root;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == '0')
-            curr = curr->left;
-        else
-            curr = curr->right;
-
-        // reached leaf node
-        if (curr->left == NULL and curr->right == NULL) {
-            ans += curr->data;
-            curr = root;
-        }
-    }
-    // cout<<ans<<endl;
-    return ans + '\0';
-}
-
 char *readFile(char *path) {
     static char *buffer = nullptr;
     long length;

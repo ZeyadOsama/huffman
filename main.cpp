@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
             h.printCodes();
         writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap());
 
-        cout << endl << endl << decode_file(h.m_minHeap.top(), readFile(argv[e.OUTPUT_INDEX]));
+        cout << endl << endl << h.decode(h.m_minHeap.top(), readFile(argv[e.OUTPUT_INDEX]));
     } else if (strcmp(argv[1], DECOMPRESS) == 0) {
 
     }
