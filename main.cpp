@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
         if (e.isVerbose())
             h.printCodes();
         writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
-
     } else if (strcmp(argv[1], DECOMPRESS) == 0) {
         map<char, int> m = getCompressedFrequencies(argv[e.INPUT_INDEX]);
         if (e.isVerbose()) {

@@ -26,7 +26,7 @@ struct MinHeapNode {
  * @brief Huffman class.
  */
 class Huffman {
-private:
+public:
     /**
      * @brief comparison of two heap nodes.
      */

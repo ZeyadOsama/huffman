@@ -15,7 +15,7 @@ using namespace std;
 
 int writeFile(char *inPath, char *outPath, map<char, string> codeMap) {
     fstream fin(inPath, fstream::in);
-    ofstream out(outPath, ios::binary | ios::out | ios::app);
+    ofstream out(outPath, ios::binary | ios::out);
     out << "T^" << endl;
 
     char c;
@@ -36,6 +36,7 @@ int writeFile(char *inPath, char *outPath, map<char, string> codeMap) {
                 acc <<= 1;
             }
         } else {
+            cout << c << endl;
             fprintf(stderr, "Error occurred while writing to file.");
             return -1;
         }
@@ -45,7 +46,7 @@ int writeFile(char *inPath, char *outPath, map<char, string> codeMap) {
     return 0;
 }
 
-int writeHeader(char *outPath, map<char, int> freqMap) {
+int writeHeader(char *outPath, const map<char, int> &freqMap) {
     ofstream out(outPath, ios::binary | ios::out);
     out << "H^" << endl;
     for (auto const &p : freqMap)
@@ -56,8 +57,8 @@ int writeHeader(char *outPath, map<char, int> freqMap) {
 }
 
 int writeCompression(char *inPath, char *outPath, map<char, string> codeMap, map<char, int> freqMap) {
-    writeHeader(outPath, std::move(freqMap));
-    writeFile(inPath, outPath, std::move(codeMap));
+    writeHeader(outPath, freqMap);
+    writeFile(inPath, outPath, codeMap);
     return 0;
 }
 

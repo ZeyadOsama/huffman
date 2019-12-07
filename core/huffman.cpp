@@ -20,7 +20,7 @@ void Huffman::printCodes() {
 void Huffman::buildCodeMap(struct MinHeapNode *node, const string &str) {
     if (!node)
         return;
-    if (node->data != '$')
+    if (node->data != CHAR_MIN)
         m_codesMap[node->data] = str;
     buildCodeMap(node->left, str + '0');
     buildCodeMap(node->right, str + '1');
@@ -44,7 +44,7 @@ void Huffman::build() {
         // make the two extracted node as left and right children
         // of this new node. Add this node to the min heap '$' is a special value
         // for internal nodes, not used
-        top = new MinHeapNode('$', left->freq + right->freq);
+        top = new MinHeapNode(CHAR_MIN, left->freq + right->freq);
         top->left = left;
         top->right = right;
         m_minHeap.push(top);
@@ -57,7 +57,7 @@ map<char, string> Huffman::getCodesMap() {
 }
 
 string Huffman::decode(string s) {
-    return Huffman::decode(m_minHeap.top(), std::move(s));
+    return Huffman::decode(m_minHeap.top(), s);
 }
 
 string Huffman::decode(struct MinHeapNode *root, string s) {
