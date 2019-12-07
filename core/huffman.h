@@ -40,6 +40,8 @@ private:
     std::map<char, std::string> m_codesMap;
     std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare> m_minHeap;
 
+    std::string decode(struct MinHeapNode *root, std::string s);
+
     void buildCodeMap(struct MinHeapNode *node, const std::string &str);
 
 public:
@@ -59,7 +61,7 @@ public:
 
     std::map<char, std::string> getCodesMap();
 
-    std::string decode(struct MinHeapNode *root, std::string s);
+    std::string decode(std::string s);
 };
 
 

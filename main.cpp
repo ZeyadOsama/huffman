@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     Environment e(argc, argv);
 
     if (strcmp(argv[1], COMPRESS) == 0) {
-        map<char, int> m = getFrequencies(argv[e.INPUT_INDEX]);
+        map<char, int> m = getDecompressedFrequencies(argv[e.INPUT_INDEX]);
         if (e.isVerbose()) {
             cout << "Frequencies:" << endl;
             for (auto const &p : m)
@@ -34,11 +34,21 @@ int main(int argc, char *argv[]) {
         h.build();
         if (e.isVerbose())
             h.printCodes();
-        writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap());
+        writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
 
-        cout << endl << endl << h.decode(h.m_minHeap.top(), readFile(argv[e.OUTPUT_INDEX]));
     } else if (strcmp(argv[1], DECOMPRESS) == 0) {
-
+        map<char, int> m = getCompressedFrequencies(argv[e.INPUT_INDEX]);
+        if (e.isVerbose()) {
+            cout << "Frequencies:" << endl;
+            for (auto const &p : m)
+                std::cout << "\t" << p.first << ":\t" << p.second << '\n';
+            cout << endl;
+        }
+        Huffman h(m);
+        h.build();
+        if (e.isVerbose())
+            h.printCodes();
+        writeDecompression(argv[e.OUTPUT_INDEX], h.decode(readFile(argv[e.INPUT_INDEX])));
     }
     return 0;
 }

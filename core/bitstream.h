@@ -5,6 +5,6 @@
 #ifndef _BITSTREAM_H
 #define _BITSTREAM_H
 
-inline std::string toBinaryString(const std::string &s);
+std::string toBinaryString(std::string s);
 
 #endif

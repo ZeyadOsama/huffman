@@ -5,42 +5,33 @@
 #include <iostream>
 #include <map>
 #include <fstream>
+#include <utility>
+#include <sstream>
 
 #include "huffman.h"
 #include "io.h"
 
 using namespace std;
 
-int writeCompression(char *inPath, char *outPath, map<char, string> codeMap) {
-
-    int cnt = 0;
-    char c;
-    unsigned int acc = 0;
-    unsigned int bitCnt = 0;
+int writeFile(char *inPath, char *outPath, map<char, string> codeMap) {
     fstream fin(inPath, fstream::in);
-    ofstream out(outPath, ios::binary | ios::out);
+    ofstream out(outPath, ios::binary | ios::out | ios::app);
+    out << "T^" << endl;
+
+    char c;
+    unsigned int acc = 0, bitCnt = 0;
+
     while (fin >> noskipws >> c) {
         if (codeMap.find(c) != codeMap.end()) {
             for (char &ch : codeMap[c]) {
-
                 if (ch == '0')
                     acc |= 0;
                 else if (ch == '1')
                     acc |= 1;
-
-                std::bitset<8> x1(acc);
-
-                cout << x1 << " - " << ch << " - " << bitCnt << endl;
                 if (++bitCnt >= 8) {
-
-                    std::bitset<8> x(acc);
-                    std::cout << x << '\n';
-                    cout << endl;
-
                     out.put(acc);
                     acc = 0;
                     bitCnt = 0;
-                    cnt++;
                 }
                 acc <<= 1;
             }
@@ -49,15 +40,35 @@ int writeCompression(char *inPath, char *outPath, map<char, string> codeMap) {
             return -1;
         }
     }
-
-    cout << cnt << endl;
-    cout << "Writing to file succeeded." <<
-         endl;
+    out << endl << "^END";
+    cout << "Writing to file succeeded." << endl;
     return 0;
 }
 
+int writeHeader(char *outPath, map<char, int> freqMap) {
+    ofstream out(outPath, ios::binary | ios::out);
+    out << "H^" << endl;
+    for (auto const &p : freqMap)
+        out << p.first << "," << p.second << endl;
+    out << "^END_H" << endl;
+    return 0;
 
-map<char, int> getFrequencies(const string &path) {
+}
+
+int writeCompression(char *inPath, char *outPath, map<char, string> codeMap, map<char, int> freqMap) {
+    writeHeader(outPath, std::move(freqMap));
+    writeFile(inPath, outPath, std::move(codeMap));
+    return 0;
+}
+
+int writeDecompression(char *outPath, const string &s) {
+    ofstream out(outPath, ios::out);
+    out << s;
+    cout << "Writing to file succeeded." << endl;
+    return 0;
+}
+
+map<char, int> getDecompressedFrequencies(const string &path) {
     map<char, int> map;
     char c;
     fstream fin(path, fstream::in);
@@ -67,9 +78,34 @@ map<char, int> getFrequencies(const string &path) {
         else map[c] = 1;
     }
     return map;
+
 }
 
-char *readFile(char *path) {
+map<char, int> getCompressedFrequencies(const string &path) {
+
+    map<char, int> map;
+    std::ifstream file(path);
+    std::string str;
+    while (std::getline(file, str)) {
+        if (str == "H^")
+            continue;
+        if (str == "^END_H")
+            break;
+
+        vector<string> tokens;
+        stringstream check1(str);
+        string intermediate;
+        while (getline(check1, intermediate, ','))
+            tokens.push_back(intermediate);
+        char cstr[tokens[0].size() + 1];
+        strcpy(cstr, tokens[0].c_str());
+        map[cstr[0]] = stoi(tokens[1]);
+
+    }
+    return map;
+}
+
+string readFile(char *path) {
     static char *buffer = nullptr;
     long length;
     FILE *fptr = fopen(path, "rb");
@@ -94,15 +130,11 @@ char *readFile(char *path) {
     cout << "\nbuffer:-\n" << buffer << endl;
 #endif
 
+    std::string s(buffer);
 
-    std::bitset<8> x1(buffer[0]);
-    std::bitset<8> x2(buffer[1]);
-    std::bitset<8> x3(buffer[length - 2]);
-    std::bitset<8> x4(buffer[length - 1]);
-    std::cout << x1 << '\n';
-    std::cout << x2 << '\n';
-    std::cout << x3 << '\n';
-    std::cout << length << '\n';
-
-    return buffer;
+    string f = "T^\n";
+    s = s.substr(s.find(f) + f.length());
+    return s;
 }
+
+

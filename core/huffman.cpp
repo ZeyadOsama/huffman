@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <utility>
 #include "bitstream.h"
 #include "huffman.h"
 
@@ -55,6 +56,10 @@ map<char, string> Huffman::getCodesMap() {
     return m_codesMap;
 }
 
+string Huffman::decode(string s) {
+    return Huffman::decode(m_minHeap.top(), std::move(s));
+}
+
 string Huffman::decode(struct MinHeapNode *root, string s) {
     s = toBinaryString(s);
     string ds;
@@ -65,7 +70,7 @@ string Huffman::decode(struct MinHeapNode *root, string s) {
         else
             cur = cur->right;
 
-        if (cur->left == nullptr and cur->right == nullptr) {
+        if (cur->left == nullptr && cur->right == nullptr) {
             ds += cur->data;
             cur = root;
         }
