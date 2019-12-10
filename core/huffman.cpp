@@ -61,8 +61,7 @@ string Huffman::decode(string s) {
 
 string Huffman::decode(struct MinHeapNode *root, string s) {
     s = toBinaryString(s);
-    cout << s << endl;
-    string ds;
+    string decodedString;
     struct MinHeapNode *cur = root;
     for (char c : s) {
         if (c == '0')
@@ -71,9 +70,9 @@ string Huffman::decode(struct MinHeapNode *root, string s) {
             cur = cur->right;
 
         if (cur->left == nullptr && cur->right == nullptr) {
-            ds += cur->data;
+            decodedString += cur->data;
             cur = root;
         }
     }
-    return ds + '\0';
+    return decodedString;
 }

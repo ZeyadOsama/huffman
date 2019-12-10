@@ -17,7 +17,7 @@ using namespace std;
 int writer::writeHeader(char *outPath, FREQUENCY_MAP freqMap) {
     ofstream out(outPath, ios::binary | ios::out);
     for (const auto &item : freqMap)
-        out << item.first << SEPARATOR_CHAR_CODE << item.second << SEPARATOR_CHAR_CODE;
+        out << item.first << SEPARATOR_CHAR_CODE << item.second << SEPARATOR_HEADER_ENTRY;
     out << SEPARATOR_HEADER;
     return 0;
 }
