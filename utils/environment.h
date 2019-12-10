@@ -2,8 +2,8 @@
 // Created by Zeyad Osama on 11/22/19.
 //
 
-#ifndef HUFFMAN_HELP_H
-#define HUFFMAN_HELP_H
+#ifndef HUFFMAN_ENVIRONMENT_H
+#define HUFFMAN_ENVIRONMENT_H
 
 #define COMPRESS  "-c"
 #define DECOMPRESS "-d"
@@ -31,4 +31,4 @@ void print_help();
 
 void print_help(const std::string &);
 
-#endif //HUFFMAN_HELP_H
+#endif //HUFFMAN_ENVIRONMENT_H

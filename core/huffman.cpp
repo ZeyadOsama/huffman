@@ -5,8 +5,7 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <utility>
-#include "bitstream.h"
+#include "../io/bitstream.h"
 #include "huffman.h"
 
 using namespace std;
@@ -62,6 +61,7 @@ string Huffman::decode(string s) {
 
 string Huffman::decode(struct MinHeapNode *root, string s) {
     s = toBinaryString(s);
+    cout << s << endl;
     string ds;
     struct MinHeapNode *cur = root;
     for (char c : s) {

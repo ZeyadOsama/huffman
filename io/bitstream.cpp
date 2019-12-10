@@ -8,9 +8,9 @@
 
 using namespace std;
 
-string toBinaryString(string s) {
+string toBinaryString(const string &s) {
     string bs;
-    for (char &c : s)
+    for (char c : s)
         bs += bitset<8>(c).to_string();
     return bs;
 }
