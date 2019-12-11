@@ -5,8 +5,7 @@
 #ifndef HUFFMAN_IO_H
 #define HUFFMAN_IO_H
 
-#define FREQUENCY_MAP std::map<char, int>
-#define CODE_MAP std::map<char, std::string>
+#include "../utils/constants.h"
 
 FREQUENCY_MAP getFrequencies(const std::string &path);
 

@@ -5,23 +5,48 @@
 #ifndef HUFFMAN_READER_H
 #define HUFFMAN_READER_H
 
-#define FREQUENCY_MAP std::map<char, int>
-#define CODE_MAP std::map<char, std::string>
+#include "../utils/constants.h"
 
-class reader {
+class Reader {
+private:
+    /**
+     * @brief file path.
+     */
+    char *m_path;
+
+    /**
+     * @brief buffered string to be parsed and decoded.
+     */
+    std::string m_buffer;
+
+    /**
+     * @brief extracts snippet out of string.
+     * @param _START to cut before.
+     * @param _END to cut after.
+     * @return snippet.
+     */
+    std::string extractSnippet(const char *_START, const char *_END);
+
+    std::string parseHeader();
+
 public:
-/**
- * @param inPath to read file.
- * @return FREQUENCY_MAP
- */
+    explicit Reader(char *inPath);
 
-    static FREQUENCY_MAP readHeader(char *inPath);
+    /**
+     * @brief reads file and buffer it in m_buffer.
+     * @return 0 if succeed.
+     */
+    int readFile();
 
-/**
- * @param inPath to read file.
- * @return decoded string itself.
- */
-    static std::string readText(char *inPath);
+    /**
+     * @return FREQUENCY_MAP for decoding.
+     */
+    FREQUENCY_MAP getHeader();
+
+    /**
+     * @return string TEXT section from encoded file.
+     */
+    std::string getText();
 };
 
 

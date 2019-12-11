@@ -37,8 +37,9 @@ int main(int argc, char *argv[]) {
         }
         writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
     } else if (strcmp(argv[1], DECOMPRESS) == 0) {
-        map<char, int> m = reader::readHeader(argv[e.INPUT_INDEX]);
-
+        Reader r(argv[e.INPUT_INDEX]);
+        r.readFile();
+        map<char, int> m = r.getHeader();
         Huffman h(m);
         h.build();
 
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
             printFrequencies(m);
             h.printCodes();
         }
-        writeDecompression(argv[e.OUTPUT_INDEX], h.decode(reader::readText(argv[e.INPUT_INDEX])));
+        writeDecompression(argv[e.OUTPUT_INDEX], h.decode(r.getText()));
     }
     return 0;
 }

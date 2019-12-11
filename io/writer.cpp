@@ -7,18 +7,14 @@
 #include <fstream>
 #include "writer.h"
 
-#define SEPARATOR_CHAR_CODE char(131)
-#define SEPARATOR_HEADER_ENTRY char(130)
-#define SEPARATOR_HEADER char(129)
-#define SEPARATOR_TEXT char(128)
-
 using namespace std;
 
 int writer::writeHeader(char *outPath, FREQUENCY_MAP freqMap) {
     ofstream out(outPath, ios::binary | ios::out);
-    for (const auto &item : freqMap)
-        out << item.first << SEPARATOR_CHAR_CODE << item.second << SEPARATOR_HEADER_ENTRY;
     out << SEPARATOR_HEADER;
+    for (const auto &item : freqMap)
+        out << item.first << SEPARATOR_CODE << item.second << SEPARATOR_CODE_ENTRY;
+    out << SEPARATOR_HEADER_END;
     return 0;
 }
 
@@ -29,6 +25,7 @@ int writer::writeText(char *inPath, char *outPath, CODE_MAP codeMap) {
     char c = 0;
     unsigned int acc = 0, bitCnt = 0;
 
+    out << SEPARATOR_TEXT;
     while (fin >> noskipws >> c) {
         if (codeMap.find(c) != codeMap.end()) {
             for (char &ch : codeMap[c]) {
@@ -49,7 +46,7 @@ int writer::writeText(char *inPath, char *outPath, CODE_MAP codeMap) {
             return -1;
         }
     }
-    out << SEPARATOR_TEXT;
+    out << SEPARATOR_TEXT_END;
     cout << "Writing to file succeeded." << endl;
     return 0;
 }

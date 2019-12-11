@@ -5,8 +5,7 @@
 #ifndef HUFFMAN_WRITER_H
 #define HUFFMAN_WRITER_H
 
-#define FREQUENCY_MAP std::map<char, int>
-#define CODE_MAP std::map<char, std::string>
+#include "../utils/constants.h"
 
 class writer {
 public:

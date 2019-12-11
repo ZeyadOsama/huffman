@@ -4,70 +4,69 @@
 
 #include <iostream>
 #include <map>
-#include <fstream>
 #include "reader.h"
-
-#define SEPARATOR_CHAR_CODE char(131)
-#define SEPARATOR_HEADER_ENTRY char(130)
-#define SEPARATOR_HEADER char(129)
-#define SEPARATOR_TEXT char(128)
 
 using namespace std;
 
-FREQUENCY_MAP reader::readHeader(char *inPath) {
-    ifstream in(inPath);
-    FREQUENCY_MAP freqMap;
-    char ch;
-    in.get(ch);
-    char key = ch;
+Reader::Reader(char *inPath) {
+    m_path = inPath;
+}
 
-    while (ch != SEPARATOR_HEADER) {
-        if (ch == SEPARATOR_CHAR_CODE) {
-            in.get(ch);
+int Reader::readFile() {
+    char *buffer = nullptr;
+    long length;
+    FILE *fptr = fopen(m_path, "rb");
+    if (fptr) {
+        fseek(fptr, 0, SEEK_END);
+        length = ftell(fptr);
+        fseek(fptr, 0, SEEK_SET);
+        buffer = (char *) malloc((size_t) length);
+        if (buffer)
+            fread(buffer, sizeof(char), (size_t) length, fptr);
+        fclose(fptr);
+    }
+    if (!buffer)
+        exit(EXIT_FAILURE);
+    m_buffer = string(buffer);
+    return 0;
+}
+
+FREQUENCY_MAP Reader::getHeader() {
+    string buffer = parseHeader();
+    FREQUENCY_MAP freqMap;
+    int i = 0;
+    char key = buffer[i++];
+    while (buffer[i] != '\0') {
+        if (buffer[i] == SEPARATOR_CODE) {
+            i++;
             string s;
-            while (ch != SEPARATOR_HEADER_ENTRY) {
-                s += ch;
-                in.get(ch);
-            }
+            while (buffer[i] != SEPARATOR_CODE_ENTRY)
+                s += buffer[i++];
             freqMap[key] = stoi(s);
         } else
-            key = ch;
-        in.get(ch);
+            key = buffer[i];
+        i++;
     }
     return freqMap;
 }
 
-string reader::readText(char *inPath) {
-    ifstream in(inPath);
-    char ch = 0;
-    bool start = false;
-    string s;
-    while (ch != SEPARATOR_TEXT) {
-        in.get(ch);
-        if (ch == SEPARATOR_HEADER) {
-            start = true;
-            in.get(ch);
-        }
-        if (start)
-            s += ch;
+string Reader::getText() {
+    return extractSnippet(SEPARATOR_TEXT, SEPARATOR_TEXT_END);
+}
+
+string Reader::parseHeader() {
+    return extractSnippet(SEPARATOR_HEADER, SEPARATOR_HEADER_END);
+}
+
+string Reader::extractSnippet(const char *_START, const char *_END) {
+    string buffer = m_buffer;
+    size_t start = buffer.find(_START);
+    size_t end = buffer.find(_END, start + 1);
+    if (start != string::npos && end != string::npos) {
+        start += strlen(_START);
+        buffer.erase(0, start);
+        buffer.erase(end - start);
+        return buffer;
     }
-    return s;
-//    int headerLength = getHeaderLength(inPath);
-//
-//    char *buffer = nullptr;
-//    long length;
-//    FILE *fptr = fopen(inPath, "rb");
-//
-//    if (fptr) {
-//        fseek(fptr, headerLength, SEEK_END);
-//        length = ftell(fptr);
-//        fseek(fptr, headerLength, SEEK_SET);
-//        buffer = (char *) malloc((size_t) length);
-//        if (buffer)
-//            fread(buffer, sizeof(char), (size_t) length, fptr);
-//        fclose(fptr);
-//    }
-//    if (!buffer)
-//        exit(EXIT_FAILURE);
-//    return string(buffer);
+    return nullptr;
 }
