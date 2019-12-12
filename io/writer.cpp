@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int writer::writeHeader(char *outPath, FREQUENCY_MAP freqMap) {
+int writer::writeHeader(string outPath, FREQUENCY_MAP freqMap) {
     ofstream out(outPath, ios::binary | ios::out);
     out << SEPARATOR_HEADER;
     for (const auto &item : freqMap)
@@ -18,7 +18,7 @@ int writer::writeHeader(char *outPath, FREQUENCY_MAP freqMap) {
     return 0;
 }
 
-int writer::writeText(char *inPath, char *outPath, CODE_MAP codeMap) {
+int writer::writeText(string inPath, string outPath, CODE_MAP codeMap) {
     fstream fin(inPath, fstream::in);
     ofstream out(outPath, ios::binary | ios::out | ios::app);
 

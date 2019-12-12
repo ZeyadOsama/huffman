@@ -14,7 +14,7 @@ public:
  * @param freqMap to be decoded.
  * @return 0 if succeeded;
  */
-    static int writeHeader(char *outPath, FREQUENCY_MAP freqMap);
+    static int writeHeader(std::string outPath, FREQUENCY_MAP freqMap);
 
 /**
  * @param inPath to read file which includes text to be decoded.
@@ -22,7 +22,7 @@ public:
  * @param codeMap to decode text.
  * @return
  */
-    static int writeText(char *inPath, char *outPath, CODE_MAP codeMap);
+    static int writeText(std::string inPath, std::string outPath, CODE_MAP codeMap);
 };
 
 

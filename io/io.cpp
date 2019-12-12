@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int writeCompression(char *inPath, char *outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap) {
+int writeCompression(string inPath, string outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap) {
     writer::writeHeader(outPath, std::move(freqMap));
     writer::writeText(inPath, outPath, std::move(codeMap));
     return 0;

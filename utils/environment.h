@@ -5,9 +5,6 @@
 #ifndef HUFFMAN_ENVIRONMENT_H
 #define HUFFMAN_ENVIRONMENT_H
 
-#define COMPRESS  "-c"
-#define DECOMPRESS "-d"
-
 #include <string>
 
 class Environment {
@@ -15,6 +12,8 @@ private:
     char **m_argv;
     int m_argc;
     bool m_isVerbose;
+    bool m_isMultiple;
+    bool m_isCompress;
 
     void set();
 
@@ -25,6 +24,10 @@ public:
     Environment(int t_argc, char *t_argv[]);
 
     bool isVerbose();
+
+    bool isMultiple();
+
+    bool isCompress();
 };
 
 void print_help();

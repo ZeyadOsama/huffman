@@ -9,10 +9,13 @@
 
 #include <iostream>
 #include <map>
+#include <dirent.h>
+#include <sys/stat.h>
 #include "utils/environment.h"
 #include "core/huffman.h"
 #include "io/io.h"
 #include "io/reader.h"
+#include "utils/constants.h"
 
 using namespace std;
 
@@ -24,19 +27,57 @@ int main(int argc, char *argv[]) {
     }
     Environment e(argc, argv);
 
-    if (strcmp(argv[1], COMPRESS) == 0) {
-        map<char, int> m = getFrequencies(argv[e.INPUT_INDEX]);
+    if (e.isCompress()) {
+        if (e.isMultiple()) {
+            string outDir = argv[e.INPUT_INDEX];
+            outDir.replace(outDir.end() - 1, outDir.end(), EXT_COMP_DIR);
+            if (mkdir(outDir.c_str(), S_IRWXU) == -1)
+                cerr << "error::  " << strerror(errno) << endl;
+            else
+                cout << "directory created." << endl;
 
-        Huffman h(m);
-        h.build();
+            struct dirent *entry = nullptr;
+            DIR *dp = opendir(argv[e.INPUT_INDEX]);
+            if (dp != nullptr)
+                while ((entry = readdir(dp))) {
+                    string inPath = argv[e.INPUT_INDEX];
+                    string fileName = entry->d_name;
+                    if (fileName.find(EXT_TXT) != std::string::npos) {
+                        inPath.append(fileName);
+                        map<char, int> m = getFrequencies(inPath);
 
-        // verbose mode.
-        if (e.isVerbose()) {
-            printFrequencies(m);
-            h.printCodes();
+                        Huffman h(m);
+                        h.build();
+
+                        string outPath = outDir;
+                        fileName.replace(fileName.end() - 4, fileName.end(), EXT_COMP_TXT);
+                        outPath.append(fileName);
+
+                        // verbose mode.
+                        if (e.isVerbose()) {
+                            printFrequencies(m);
+                            h.printCodes();
+                            cout << endl << "file:: in:: " << inPath << endl;
+                            cout << "file:: out:: " << outPath << endl;
+                        }
+                        writeCompression(inPath, outPath, h.getCodesMap(), m);
+                    }
+                }
+            closedir(dp);
+        } else {
+            map<char, int> m = getFrequencies(argv[e.INPUT_INDEX]);
+
+            Huffman h(m);
+            h.build();
+
+            // verbose mode.
+            if (e.isVerbose()) {
+                printFrequencies(m);
+                h.printCodes();
+            }
+            writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
         }
-        writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
-    } else if (strcmp(argv[1], DECOMPRESS) == 0) {
+    } else {
         Reader r(argv[e.INPUT_INDEX]);
         r.readFile();
         map<char, int> m = r.getHeader();

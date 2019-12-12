@@ -18,7 +18,7 @@ void printFrequencies(const std::map<char, int> &m);
  * @param freqMap to decode it to be read later in decompression.
  * @return 1 if succeeded.
  */
-int writeCompression(char *inPath, char *outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap);
+int writeCompression(std::string inPath, std::string outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap);
 
 /**
  * @param outPath to write at.

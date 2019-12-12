@@ -16,4 +16,9 @@
 #define FREQUENCY_MAP std::map<char, int>
 #define CODE_MAP std::map<char, std::string>
 
+#define EXT_COMP_DIR "_compress/"
+#define EXT_COMP_TXT "_c.txt"
+
+#define EXT_TXT ".txt"
+
 #endif //HUFFMAN_CONSTANTS_H
