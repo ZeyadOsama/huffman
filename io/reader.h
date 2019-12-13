@@ -30,7 +30,7 @@ private:
     std::string parseHeader();
 
 public:
-    explicit Reader(char *inPath);
+    explicit Reader(const std::string &inPath);
 
     /**
      * @brief reads file and buffer it in m_buffer.

@@ -18,13 +18,14 @@ void printFrequencies(const std::map<char, int> &m);
  * @param freqMap to decode it to be read later in decompression.
  * @return 1 if succeeded.
  */
-int writeCompression(std::string inPath, std::string outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap);
+int writeCompression(const std::string &inPath, const std::string &outPath,
+                     const CODE_MAP &codeMap, const FREQUENCY_MAP &freqMap);
 
 /**
  * @param outPath to write at.
  * @param s decompression string.
  * @return 1 if succeeded.
  */
-int writeDecompression(char *outPath, const std::string &s);
+int writeDecompression(const std::string &outPath, const std::string &s);
 
 #endif //HUFFMAN_IO_H

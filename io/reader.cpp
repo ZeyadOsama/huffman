@@ -8,8 +8,8 @@
 
 using namespace std;
 
-Reader::Reader(char *inPath) {
-    m_path = inPath;
+Reader::Reader(const string &inPath) {
+    m_path = const_cast<char *>(inPath.c_str());
 }
 
 int Reader::readFile() {

@@ -5,11 +5,12 @@
 #include <iostream>
 #include <map>
 #include <fstream>
+#include <iomanip>
 #include "writer.h"
 
 using namespace std;
 
-int writer::writeHeader(string outPath, FREQUENCY_MAP freqMap) {
+int writer::writeHeader(const string &outPath, const FREQUENCY_MAP &freqMap) {
     ofstream out(outPath, ios::binary | ios::out);
     out << SEPARATOR_HEADER;
     for (const auto &item : freqMap)
@@ -18,15 +19,21 @@ int writer::writeHeader(string outPath, FREQUENCY_MAP freqMap) {
     return 0;
 }
 
-int writer::writeText(string inPath, string outPath, CODE_MAP codeMap) {
-    fstream fin(inPath, fstream::in);
+int writer::writeText(const string &inPath, const string &outPath, CODE_MAP codeMap) {
+    fstream in(inPath, fstream::in);
     ofstream out(outPath, ios::binary | ios::out | ios::app);
+
+    std::streampos i = 0, fsize = 0;
+    fsize = in.tellg();
+    in.seekg(0, std::ios::end);
+    fsize = in.tellg() - fsize;
+    in.seekg(0, std::ios::beg);
 
     char c = 0;
     unsigned int acc = 0, bitCnt = 0;
 
     out << SEPARATOR_TEXT;
-    while (fin >> noskipws >> c) {
+    while (in >> noskipws >> c) {
         if (codeMap.find(c) != codeMap.end()) {
             for (char &ch : codeMap[c]) {
                 if (ch == '0')
@@ -45,8 +52,13 @@ int writer::writeText(string inPath, string outPath, CODE_MAP codeMap) {
             fprintf(stderr, "Error occurred while writing to file.");
             return -1;
         }
+//        i = in.tellg();
+//        if (i % 20480)
+//            cout << setw(3) << (int) (((double) i / (double) fsize) * 100)
+//                 << "% decompressed.\r" << flush;
     }
     out << SEPARATOR_TEXT_END;
+    cout << "100% decompressed" << endl;
     cout << "Writing to file succeeded." << endl;
     return 0;
 }

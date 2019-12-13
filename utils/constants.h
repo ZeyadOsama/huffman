@@ -18,6 +18,8 @@
 
 #define EXT_COMP_DIR "_compress/"
 #define EXT_COMP_TXT "_c.txt"
+#define EXT_DCMP_DIR "_decompress/"
+#define EXT_DCMP_TXT "_d.txt"
 
 #define EXT_TXT ".txt"
 

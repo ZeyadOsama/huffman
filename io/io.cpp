@@ -11,13 +11,14 @@
 
 using namespace std;
 
-int writeCompression(string inPath, string outPath, CODE_MAP codeMap, FREQUENCY_MAP freqMap) {
-    writer::writeHeader(outPath, std::move(freqMap));
-    writer::writeText(inPath, outPath, std::move(codeMap));
+int writeCompression(const string &inPath, const string &outPath,
+                     const CODE_MAP &codeMap, const FREQUENCY_MAP &freqMap) {
+    writer::writeHeader(outPath, freqMap);
+    writer::writeText(inPath, outPath, codeMap);
     return 0;
 }
 
-int writeDecompression(char *outPath, const string &s) {
+int writeDecompression(const string &outPath, const string &s) {
     ofstream out(outPath, ios::out);
     out << s;
     cout << "Writing to file succeeded." << endl;
