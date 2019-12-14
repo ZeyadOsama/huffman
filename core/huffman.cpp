@@ -10,6 +10,10 @@
 
 using namespace std;
 
+Huffman::Huffman(std::map<char, int> mapFreq) {
+    m_mapFreq = mapFreq;
+}
+
 void Huffman::printCodes() {
     cout << "Codes:" << endl;
     for (auto const &p : m_codesMap)
@@ -27,7 +31,7 @@ void Huffman::buildCodeMap(struct MinHeapNode *node, const string &str) {
 
 void Huffman::build() {
     struct MinHeapNode *left, *right, *top;
-    for (auto const &p : m_map)
+    for (auto const &p : m_mapFreq)
         m_minHeap.push(new MinHeapNode(p.first, p.second));
     while (m_minHeap.size() != 1) {
         // extract the two minimum freq items from min heap.
@@ -56,7 +60,7 @@ map<char, string> Huffman::getCodesMap() {
 }
 
 string Huffman::decode(string s) {
-    return Huffman::decode(m_minHeap.top(), s);
+    return Huffman::decode(m_minHeap.top(), std::move(s));
 }
 
 string Huffman::decode(struct MinHeapNode *root, string s) {

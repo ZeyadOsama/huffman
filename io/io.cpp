@@ -5,9 +5,7 @@
 #include <iostream>
 #include <map>
 #include <fstream>
-#include <utility>
 #include "writer.h"
-#include "io.h"
 
 using namespace std;
 
@@ -27,7 +25,7 @@ int writeDecompression(const string &outPath, const string &s) {
 
 FREQUENCY_MAP getFrequencies(const string &path) {
     map<char, int> map;
-    char c;
+    char c = ' ';
     fstream fin(path, fstream::in);
     while (fin >> noskipws >> c) {
         if (map.find(c) != map.end())

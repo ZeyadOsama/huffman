@@ -4,7 +4,6 @@
 
 #include <string>
 #include <iostream>
-#include "bitstream.h"
 
 using namespace std;
 
