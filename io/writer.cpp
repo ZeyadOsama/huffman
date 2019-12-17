@@ -5,7 +5,6 @@
 #include <iostream>
 #include <map>
 #include <fstream>
-#include <iomanip>
 #include "writer.h"
 
 using namespace std;

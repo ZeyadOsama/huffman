@@ -11,17 +11,13 @@
 #include <map>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <fstream>
 #include "utils/environment.h"
 #include "core/huffman.h"
 #include "io/io.h"
 #include "io/reader.h"
 #include "utils/constants.h"
 
-#include "utils/formats.h"
-
 using namespace std;
-using namespace format;
 
 int main(int argc, char *argv[]) {
     // environment initialization.
@@ -136,7 +132,6 @@ int main(int argc, char *argv[]) {
             h.build();
 
             writeDecompression(argv[e.OUTPUT_INDEX], h.decode(r.getText()));
-
 
             // verbose mode.
             if (e.isVerbose()) {

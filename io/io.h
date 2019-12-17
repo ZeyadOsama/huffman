@@ -7,9 +7,7 @@
 
 #include "../utils/constants.h"
 
-FREQUENCY_MAP getFrequencies(const std::string &path);
-
-void printFrequencies(const FREQUENCY_MAP &m);
+#include <fstream>
 
 /**
  * @param inPath to read file which includes text to be decoded.
@@ -35,6 +33,10 @@ int writeDecompression(const std::string &outPath, const std::string &s);
  * @return size.
  */
 std::ifstream::pos_type fileSize(const std::string &path);
+
+FREQUENCY_MAP getFrequencies(const std::string &path);
+
+void printFrequencies(const FREQUENCY_MAP &m);
 
 void printResults(clock_t start_t, const std::string &inPath, const std::string &outPath);
 
