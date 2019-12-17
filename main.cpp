@@ -11,13 +11,17 @@
 #include <map>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <fstream>
 #include "utils/environment.h"
 #include "core/huffman.h"
 #include "io/io.h"
 #include "io/reader.h"
 #include "utils/constants.h"
 
+#include "utils/formats.h"
+
 using namespace std;
+using namespace format;
 
 int main(int argc, char *argv[]) {
     // environment initialization.
@@ -66,17 +70,21 @@ int main(int argc, char *argv[]) {
                 }
             closedir(dp);
         } else {
+            clock_t start_t = clock();
+
             map<char, int> m = getFrequencies(argv[e.INPUT_INDEX]);
 
             Huffman h(m);
             h.build();
 
+            writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
+
             // verbose mode.
             if (e.isVerbose()) {
                 printFrequencies(m);
                 h.printCodes();
+                printResults(start_t, argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX]);
             }
-            writeCompression(argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX], h.getCodesMap(), m);
         }
     } else {
         if (e.isMultiple()) {
@@ -119,18 +127,23 @@ int main(int argc, char *argv[]) {
                 }
             closedir(dp);
         } else {
+            clock_t start_t = clock();
+
             Reader r(argv[e.INPUT_INDEX]);
             r.readFile();
             map<char, int> m = r.getHeader();
             Huffman h(m);
             h.build();
 
+            writeDecompression(argv[e.OUTPUT_INDEX], h.decode(r.getText()));
+
+
             // verbose mode.
             if (e.isVerbose()) {
                 printFrequencies(m);
                 h.printCodes();
+                printResults(start_t, argv[e.INPUT_INDEX], argv[e.OUTPUT_INDEX]);
             }
-            writeDecompression(argv[e.OUTPUT_INDEX], h.decode(r.getText()));
         }
     }
     return 0;

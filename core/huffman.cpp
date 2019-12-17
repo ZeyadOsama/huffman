@@ -5,19 +5,34 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <utility>
 #include "../io/bitstream.h"
+#include "../utils/formats.h"
 #include "huffman.h"
 
+#define BYTE_LEN 8
+
 using namespace std;
+using namespace format;
 
 Huffman::Huffman(std::map<char, int> mapFreq) {
-    m_mapFreq = mapFreq;
+    m_mapFreq = std::move(mapFreq);
 }
 
 void Huffman::printCodes() {
     cout << "Codes:" << endl;
-    for (auto const &p : m_codesMap)
-        cout << "\t" << p.first << ":\t" << p.second << endl;
+    bitset<BYTE_LEN> bs;
+    unsigned char ch;
+    for (auto const &p : m_codesMap) {
+        ch = p.first;
+        if (ch == 0xD || ch == 0xA)
+            ch = ' ';
+        bs = p.first;
+        cout << tab << ch << cln
+             << tab << (int) p.first
+             << tab << bs
+             << tab << p.second << endl;
+    }
 }
 
 void Huffman::buildCodeMap(struct MinHeapNode *node, const string &str) {

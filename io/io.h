@@ -9,7 +9,7 @@
 
 FREQUENCY_MAP getFrequencies(const std::string &path);
 
-void printFrequencies(const std::map<char, int> &m);
+void printFrequencies(const FREQUENCY_MAP &m);
 
 /**
  * @param inPath to read file which includes text to be decoded.
@@ -27,5 +27,15 @@ int writeCompression(const std::string &inPath, const std::string &outPath,
  * @return 1 if succeeded.
  */
 int writeDecompression(const std::string &outPath, const std::string &s);
+
+
+/**
+ * @brief gets size of a given file.
+ * @param path of file to know it's size.
+ * @return size.
+ */
+std::ifstream::pos_type fileSize(const std::string &path);
+
+void printResults(clock_t start_t, const std::string &inPath, const std::string &outPath);
 
 #endif //HUFFMAN_IO_H
