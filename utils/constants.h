@@ -29,4 +29,6 @@
 
 #define EXT_DIR "/"
 
+#define ERROR "error::  "
+
 #endif //HUFFMAN_CONSTANTS_H

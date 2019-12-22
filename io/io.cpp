@@ -43,7 +43,7 @@ std::string compressFolder(const std::string &_inPath, const bool &_isVerbose) {
     string _outPath = _inPath;
     _outPath.replace(_outPath.end() - 1, _outPath.end(), EXT_COMP_DIR);
     if (mkdir(_outPath.c_str(), S_IRWXU) == -1)
-        cerr << "error::  " << strerror(errno) << endl;
+        cerr << ERROR << strerror(errno) << endl;
     else
         cout << "directory created." << endl;
 

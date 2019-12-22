@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include "reader.h"
+#include "io.h"
 
 using namespace std;
 
@@ -25,8 +26,10 @@ string Reader::readFile() {
             fread(buffer, sizeof(char), (size_t) length, fptr);
         fclose(fptr);
     }
-    if (!buffer)
+    if (!buffer) {
+        cerr << ERROR << strerror(errno) << endl;
         exit(EXIT_FAILURE);
+    }
     m_buffer = string(buffer);
     free(buffer);
     return m_buffer;
@@ -75,10 +78,12 @@ string Reader::extractSnippet(const char *_START, const char *_END, const std::s
         offset = _offset;
 
     cout << _START << endl << _END << endl << endl;
-    cout << "es::  offset:: " << offset << endl;
     size_t start = buffer.find(_START, offset);
-    cout << "es::  start:: " << start << endl;
+
     size_t end = buffer.find(_END, start + 1);
+
+    cout << "es::  offset:: " << offset << endl;
+    cout << "es::  start:: " << start << endl;
     cout << "es::  end:: " << end << endl;
 
     if (start != string::npos && end != string::npos) {
