@@ -140,8 +140,8 @@ void extractFile(const std::string &_inPath, const bool &_isVerbose) {
         map<char, int> m = r.getMap(r.extractSnippet(SEP_MAP, SEP_MAP_END, buffer, end_map));
         end_map = buffer.find(SEP_MAP_END, end_map);
 
-        if (_isVerbose)
-            printFrequencies(m);
+//        if (_isVerbose)
+//            printFrequencies(m);
 
         string txt = r.extractSnippet(SEP_TXT, SEP_TXT_END, buffer, end_txt);
         end_txt = buffer.find(SEP_TXT_END, end_txt);
@@ -149,8 +149,8 @@ void extractFile(const std::string &_inPath, const bool &_isVerbose) {
         Huffman h(m);
         h.build();
 
-        if (_isVerbose)
-            h.printCodes();
+//        if (_isVerbose)
+//            h.printCodes();
 
         string fileName = r.extractSnippet(SEP_PATH, SEP_PATH_END, buffer, end_path);
         end_path = buffer.find(SEP_PATH_END, end_path);

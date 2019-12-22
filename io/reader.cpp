@@ -19,7 +19,6 @@ string Reader::readFile() {
     if (fptr) {
         fseek(fptr, 0, SEEK_END);
         length = ftell(fptr);
-        cout << "LEN:: " << length << endl;
         fseek(fptr, 0, SEEK_SET);
         buffer = (char *) malloc((size_t) length);
         if (buffer)
@@ -75,13 +74,14 @@ string Reader::extractSnippet(const char *_START, const char *_END, const std::s
     if (_offset != 0)
         offset = _offset;
 
-    size_t start = buffer.find(_START + offset);
+    cout << _START << endl << _END << endl << endl;
+    cout << "es::  offset:: " << offset << endl;
+    size_t start = buffer.find(_START, offset);
+    cout << "es::  start:: " << start << endl;
     size_t end = buffer.find(_END, start + 1);
-
-    cout << "TST_ES::  " << offset << " - " << start << " - " << end << endl;
+    cout << "es::  end:: " << end << endl;
 
     if (start != string::npos && end != string::npos) {
-        cout << "xx" << endl;
         start += strlen(_START);
         buffer.erase(0, start);
         buffer.erase(end - start);
