@@ -118,4 +118,21 @@ endfor
 
 * n is the number of files required to be decompressed.
 * n(i) is the number of bytes in file i.
+</br>
 
+## Usage
+Terminal based program.
+```
+Usage:
+	./Huffman <mode> -i <input-file> -o <output-file>
+	./Huffman <mode> -m -i <input-folder>
+	./Huffman <mode> <option> -i <input-file> -o <output-file>
+
+Modes:
+	-c		Compresses input file.
+	-d		Decompresses input file.
+
+Options:
+	-v		Verbose mode.
+	-m		Multiple mode.
+```
