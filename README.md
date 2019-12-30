@@ -1,10 +1,11 @@
-# Huffman Algorithm
+# Huffman Coding
 
 <p>
   <img src="https://img.shields.io/pypi/status/Django.svg"/>
   <img src="https://img.shields.io/badge/contributions-welcome-orange.svg"/>
 </p>
-Basic Linux shell implemented with C, using basic system calls and libraries. A shell is simply a program that conveniently allows you to run other programs. Shell is an environment in which we can run our commands, programs, and shell scripts. There are different flavors of a shell, just as there are different flavors of operating systems. Each flavor of shell has its own set of recognized commands and functions.
+
+<a href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman code</a> is a particular type of optimal prefix code that is commonly used for lossless data compression. The process of finding or using such a code proceeds by means of Huffman coding, an algorithm developed by David A. Huffman.
 
 ## Objective
 Huffman’s algorithm takes a very simple idea and finds an elegant way to implement it. At its heart is the observation that the more a thing is mentioned, the shorter its name should be. This idea manifests itself in daily life too. For example, we use nicknames for people we call often, we have abbreviations for long words we often have to use and even the word ok was once an abbreviation for “all correct”.
